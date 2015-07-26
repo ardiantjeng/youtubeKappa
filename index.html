@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+	<style type="text/css">
+		.open{
+			height: 80px !important;
+			opacity: 1 !important;
+		}
+
+		#header {
+			display:flex;
+			flex-direction: column;
+			align-items:center;
+			padding-bottom: 0px;
+		}
+
+		#console {
+			height: 0px;
+			display:flex;
+			justify-content:center;
+			align-items:flex-end;
+			opacity: 0;
+			transition: .5s;
+		}
+
+		body{
+			background-color: rgb(241, 241, 241);
+			margin:0px 30px 15px;
+		}
+	</style>
+
+
+</head>
+<body>
+	<div id="header" class="row">
+		<!--OPTIONS-->
+		<div id="console" class="row open">
+			<div class="col s12 teal-text text-darken-3">
+				<div class="input-field col s6 rex">
+		          <input id="streamcode" type="text" value="R1gW9R25oR8">
+		          <label for="streamcode">Youtube URL</label>
+		        </div>
+
+				<div class="input-field col s6">
+		          <input id="chatcode" type="text" value="dota2ti">
+		          <label for="chatcode">Twitch Channel</label>
+		        </div>
+	        </div>
+		</div>
+		<!--<div class="row">
+			<a id="headerbtn" class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">mode_edit</i></a>
+		</div>-->
+	</div>
+
+	<div class="row" style="display:flex;">
+		<div class="col l9">
+			<div class="video-container">
+				<!--STREAM-->
+				<iframe id="stream" 
+						src="https://www.youtube.com/embed/R1gW9R25oR8"
+						frameborder="0" 
+						allowfullscreen>
+				</iframe>
+			</div>
+		</div>
+		<div class="col l3 card-panel" style=" margin:0px; flex: 1; display:flex; flex-direction: column;">
+			<!--CHAT-->
+			<iframe id="chat"  
+			        src="http://www.twitch.tv/dota2ti/chat"
+					frameborder="0" 
+			        scrolling="no"
+			        style="flex: 1;">
+			</iframe>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+	<script>
+		/*
+		$('#headerbtn').on('click', function() {
+			$('#console').toggleClass('open');	
+		});*/
+
+		$('#streamcode').on('change', function() {
+			var streamcode = $('#streamcode').val();
+			if(streamcode) {
+				console.log('connecting to youtube stream: ' + streamcode);
+				$('#stream').attr('src', 'https://www.youtube.com/embed/' + streamcode);
+			}
+		});
+
+		$('#chatcode').on('change', function() {
+			var chatcode = $('#chatcode').val();
+			if(chatcode) {
+				console.log('connecting to twitch chat: ' + chatcode);
+				$('#chat').attr('src', 'http://www.twitch.tv/' + chatcode + '/chat');
+			}
+		});
+	</script>
+</body>
+</html>
