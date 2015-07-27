@@ -33,6 +33,16 @@
 		}
 	</style>
 
+	<script type="text/javascript">
+		//default
+		var stream = 'R1gW9R25oR8',
+			chat   = 'dota2ti';
+		
+		stream = localStorage.getItem("stream"),
+		chat   = localStorage.getItem("chat")	
+		console.log('getting stored value...', stream, chat);
+
+	</script>
 
 </head>
 <body>
@@ -40,13 +50,15 @@
 		<!--OPTIONS-->
 		<div id="console" class="row open">
 			<div class="col s12 teal-text text-darken-3">
-				<div class="input-field col s6 rex">
-		          <input id="streamcode" type="text" value="R1gW9R25oR8">
-		          <label for="streamcode">Youtube URL</label>
-		        </div>
+		        <div id="abc" class="input-field col s6">
+					<select id="streamcode">
+						<option value="" disabled selected>Choose stream</option>
+					</select>
+					<label>Youtube stream</label>
+				</div>
 
 				<div class="input-field col s6">
-		          <input id="chatcode" type="text" value="dota2ti">
+		          <input id="chatcode" type="text">
 		          <label for="chatcode">Twitch Channel</label>
 		        </div>
 	        </div>
@@ -61,7 +73,6 @@
 			<div class="video-container">
 				<!--STREAM-->
 				<iframe id="stream" 
-						src="https://www.youtube.com/embed/R1gW9R25oR8"
 						frameborder="0" 
 						allowfullscreen>
 				</iframe>
@@ -70,7 +81,6 @@
 		<div class="col l3 card-panel" style=" margin:0px; flex: 1; display:flex; flex-direction: column;">
 			<!--CHAT-->
 			<iframe id="chat"  
-			        src="http://www.twitch.tv/dota2ti/chat"
 					frameborder="0" 
 			        scrolling="no"
 			        style="flex: 1;">
@@ -81,16 +91,19 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 	<script>
-		/*
-		$('#headerbtn').on('click', function() {
-			$('#console').toggleClass('open');	
-		});*/
+
+		$(document).ready(function() {
+			$('select').material_select();
+			$('#stream').attr('src', 'https://www.youtube.com/embed/' + stream + '?autoplay=1');
+			$('#chat').attr('src', 'http://www.twitch.tv/' + chat + '/chat');
+		});
 
 		$('#streamcode').on('change', function() {
 			var streamcode = $('#streamcode').val();
 			if(streamcode) {
 				console.log('connecting to youtube stream: ' + streamcode);
-				$('#stream').attr('src', 'https://www.youtube.com/embed/' + streamcode);
+				$('#stream').attr('src', 'https://www.youtube.com/embed/' + streamcode + '?autoplay=1');
+				localStorage.setItem("stream", streamcode);
 			}
 		});
 
@@ -99,7 +112,25 @@
 			if(chatcode) {
 				console.log('connecting to twitch chat: ' + chatcode);
 				$('#chat').attr('src', 'http://www.twitch.tv/' + chatcode + '/chat');
+				localStorage.setItem("chat", chatcode);
 			}
+		});
+
+		
+		$.getJSON('https://dl.dropboxusercontent.com/u/24830786/streamlist.json', function(data) {
+			console.log('getting stream list...');
+			var streamlist = data;
+
+			if(streamlist) {
+				$.each(streamlist, function(key, val) {
+					$('#streamcode').append($('<option>', { 
+						value: val,
+						text : key 
+					}));
+				});
+			}
+			$('select').material_select();
+			$('#abc').children('.caret').remove();
 		});
 	</script>
 </body>
