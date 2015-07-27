@@ -37,9 +37,13 @@
 		//default
 		var stream = 'R1gW9R25oR8',
 			chat   = 'dota2ti';
-		
-		stream = localStorage.getItem("stream"),
-		chat   = localStorage.getItem("chat")	
+
+		lstream = localStorage.getItem("stream"),
+		lchat   = localStorage.getItem("chat")	
+
+		if(lstream) stream = lstream;
+		if(lchat) chat = lchat;
+
 		console.log('getting stored value...', stream, chat);
 
 	</script>
